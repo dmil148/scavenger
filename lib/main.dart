@@ -107,7 +107,8 @@ class WelcomePage extends StatelessWidget {
                 'Welcome to the Patrick F. Taylor Hall Scavenger Hunt App!',
                 style: TextStyle(
                   fontSize: 24,
-                  fontFamily: 'Proxima Nova',
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Proxima Nova Bold',
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -364,7 +365,7 @@ class _TaskPageState extends State<TaskPage> {
             children: [
               Text(
                 task['question'],
-                style: const TextStyle(fontSize: 18, fontFamily: 'Proxima Nova'),
+                style: const TextStyle(fontSize: 18, fontFamily: 'Proxima Nova Bold'),
               ),
               const SizedBox(height: 10),
               TextField(
@@ -392,7 +393,7 @@ class _TaskPageState extends State<TaskPage> {
             children: [
               Text(
                 task['question'],
-                style: const TextStyle(fontSize: 18, fontFamily: 'Proxima Nova'),
+                style: const TextStyle(fontSize: 18, fontFamily: 'Proxima Nova Bold'),
               ),
               const SizedBox(height: 10),
               ...task['choices'].map<Widget>((choice) {
@@ -423,7 +424,7 @@ class _TaskPageState extends State<TaskPage> {
             children: [
               const Text(
                 'Unlocked Snippets:',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18, fontFamily: 'Proxima Nova Bold'),
               ),
               const SizedBox(height: 10),
               if (unlockedSnippets.isEmpty)
@@ -582,7 +583,7 @@ class HelpPage extends StatelessWidget {
           children: [
             const Text(
               'What is this app?',
-              style: TextStyle(fontSize: 24, fontFamily: 'Proxima Nova'),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, fontFamily: 'Proxima Nova Bold'),
             ),
             const SizedBox(height: 10),
             const Text(
@@ -593,7 +594,7 @@ class HelpPage extends StatelessWidget {
             const SizedBox(height: 20),
             const Text(
               'How to win the scavenger hunt?',
-              style: TextStyle(fontSize: 24,  fontFamily: 'Proxima Nova'),
+              style: TextStyle(fontSize: 24,  fontWeight: FontWeight.w600, fontFamily: 'Proxima Nova Bold'),
             ),
             const SizedBox(height: 10),
             const Text(
@@ -607,7 +608,7 @@ class HelpPage extends StatelessWidget {
             const SizedBox(height: 20),
             const Text(
               'What is the format of the password?',
-              style: TextStyle(fontSize: 24, fontFamily: 'Proxima Nova'),
+              style: TextStyle(fontSize: 24,  fontWeight: FontWeight.w600, fontFamily: 'Proxima Nova Bold'),
             ),
             const SizedBox(height: 10),
             const Text(
@@ -617,7 +618,7 @@ class HelpPage extends StatelessWidget {
             const SizedBox(height: 20),
             const Text(
               'Does this app save my progress?',
-              style: TextStyle(fontSize: 24, fontFamily: 'Proxima Nova'),
+              style: TextStyle(fontSize: 24, fontFamily: 'Proxima Nova Bold', fontWeight: FontWeight.w600,),
             ),
             const SizedBox(height: 10),
             const Text(
