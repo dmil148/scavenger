@@ -115,7 +115,7 @@ class WelcomePage extends StatelessWidget {
               SizedBox(height: 20),
               Text(
                 'This app is designed to guide you through a fun scavenger hunt in PFT. '
-                'Explore the building, answer questions, and unlock the secret prize!',
+                'Explore the building, answer questions, \n and unlock the secret prize!',
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'Proxima Nova',
@@ -148,6 +148,8 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   String _selectedFloor = 'First Floor';
+  bool _isZoomed = false; // Track whether the map is zoomed in or not
+  final TransformationController _transformationController = TransformationController();
 
   final Map<String, String> _floorMaps = {
     'First Floor': "assets/pft_first_floor.png",
@@ -155,10 +157,26 @@ class _MapPageState extends State<MapPage> {
     'Third Floor': "assets/pft_third_floor.png",
   };
 
+  void _toggleZoom() {
+    setState(() {
+      if (_isZoomed) {
+        // Reset to default scale
+        _transformationController.value = Matrix4.identity();
+      } else {
+        // Zoom in by scaling the map
+        _transformationController.value = Matrix4.identity()..scale(2.0);
+      }
+      _isZoomed = !_isZoomed; // Toggle zoom state
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -169,26 +187,36 @@ class _MapPageState extends State<MapPage> {
                   value: floor,
                   child: Text(
                     floor,
+                    style: const TextStyle(fontSize: 18),
                   ),
                 );
               }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
                   _selectedFloor = newValue!;
+                  _isZoomed = false; // Reset zoom state when changing floors
+                  _transformationController.value = Matrix4.identity(); // Reset scale
                 });
               },
             ),
             const SizedBox(height: 20),
-            Center(
-              child: InteractiveViewer(
-                panEnabled: true, // Allow panning
-                boundaryMargin: const EdgeInsets.all(20), // Add margin for panning
-                minScale: 1.0, // Minimum zoom scale
-                maxScale: 5.0, // Maximum zoom scale
-                child: Image.asset(
-                  _floorMaps[_selectedFloor]!,
-                  width: 800,
-                  height: 500,
+            Expanded(
+              child: Center(
+                child: GestureDetector(
+                  onTap: _toggleZoom, // Toggle zoom on tap
+                  child: InteractiveViewer(
+                    transformationController: _transformationController,
+                    panEnabled: true, // Allow panning
+                    boundaryMargin: const EdgeInsets.all(20), // Add margin for panning
+                    minScale: 1.0, // Minimum zoom scale
+                    maxScale: 5.0, // Maximum zoom scale
+                    child: Image.asset(
+                      _floorMaps[_selectedFloor]!,
+                      width: screenWidth * 0.9, // Scale map to 90% of screen width
+                      height: screenHeight * 0.6, // Scale map to 60% of screen height
+                      fit: BoxFit.contain, // Ensure the map fits within its bounds
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -257,7 +285,7 @@ class _TaskPageState extends State<TaskPage> {
       'correct': 0,
     },
     {
-      'question': 'Question 7: What of these can one see from the third floor veranda?',
+      'question': 'Question 7: Which of these can one see from the third floor veranda?',
       'choices': ['UREC', 'Student Union', 'Tiger Stadium', 'Parade Grounds'],
       'answer': 'Tiger Stadium',
       'selected': null,
@@ -599,7 +627,7 @@ class HelpPage extends StatelessWidget {
             const SizedBox(height: 10),
             const Text(
               '1. Answer all multiple-choice questions correctly.\n'
-              '2. With each correct answer, you will receive a snippet of the final password. This will show up on the bottom of the page.\n'
+              '2. With each correct answer, you will receive a snippet of the final password. This will show up at the bottom of the page.\n'
               '3. Once all questions are answered correctly, a secret question will be unlocked.\n'
               '4. Unscramble the snippets to form the final password.\n'
               '5. Tpye the password in the secret question to win the scavenger hunt and reveal the prize!',
